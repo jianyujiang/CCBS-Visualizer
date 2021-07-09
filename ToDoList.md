@@ -85,6 +85,7 @@
 1. QT：ASearchVisualizer程序：输入xml文件，鼠标滑动进度条展示寻路算法的状态。进度条头为算法的起点，进度条尾为算法的重点。
 
    * 程序是通过集成tinyxml开源C++的xml解析程序和QT的图窗，进度条等控件实现可视化。
+   * ![QT tool](https://github.com/jianyujiang/CCBS-Visualizer/blob/master/pictures/Qt%20toolpng.png)
 
 2. Python:libMultiRobotPlanning程序：输入两个yaml文件，map_obstacke和 algorighm output输出为matplotlib库做的animation。
 
@@ -92,6 +93,21 @@
    * matplotlib库：画图
    * argparse库：解析命令行输入
    * 使用方式是在命令行输入：python3 ../example/visualize.py ../benchmark/32x32_obst204/map_32by32_obst204_agents10_ex1.yaml output.yaml
+   * ![Python tool](https://github.com/jianyujiang/CCBS-Visualizer/blob/master/pictures/python%20tool.png)
+   
 
-   ##  20210709
+##  20210709
 
+1. QT:tinyxml库：
+   * TiXmlBase：整个TinyXML模型的基类。
+     TiXmlAttribute：对应于XML中的元素的属性。
+     TiXmlNode：对应于DOM结构中的节点。
+     TiXmlComment：对应于XML中的注释。
+     TiXmlDeclaration：对应于XML中的申明部分，即<？versiong="1.0" ?>。
+     TiXmlDocument：对应于XML的整个文档。
+     TiXmlElement：对应于XML的元素。
+     TiXmlText：对应于XML的文字部分。
+     TiXmlUnknown：对应于XML的未知部分。 
+     TiXmlHandler：定义了针对XML的一些操作。
+2. Python:lxml库+matplotlib库+argparse库
+   * 
