@@ -74,7 +74,7 @@
 
 1. CCBS算法的可视化问题：现在输出为XML格式
    * 找出现在程序中输出的格式规范
-   * QT工具ASearchVisualizer可以可视化自己example文件夹中的xml。
+   * Qt工具ASearchVisualizer可以可视化自己example文件夹中的xml。
 2. g2o:general graph optimization
    * 选择一个线性方程求解器：从PCG，CSparse，Choldmod中选
    * 选择一个BlockSolver
@@ -82,10 +82,10 @@
 
 ##  20210708 
 
-1. QT：ASearchVisualizer程序：输入xml文件，鼠标滑动进度条展示寻路算法的状态。进度条头为算法的起点，进度条尾为算法的重点。
+1. Qt：ASearchVisualizer程序：输入xml文件，鼠标滑动进度条展示寻路算法的状态。进度条头为算法的起点，进度条尾为算法的重点。
 
    * 程序是通过集成tinyxml开源C++的xml解析程序和QT的图窗，进度条等控件实现可视化。
-   * ![QT tool](https://github.com/jianyujiang/CCBS-Visualizer/blob/master/pictures/Qt%20toolpng.png)
+   * ![Qt tool](https://github.com/jianyujiang/CCBS-Visualizer/blob/master/pictures/Qt%20toolpng.png)
 
 2. Python:libMultiRobotPlanning程序：输入两个yaml文件，map_obstacke和 algorighm output输出为matplotlib库做的animation。
 
@@ -94,11 +94,10 @@
    * argparse库：解析命令行输入
    * 使用方式是在命令行输入：python3 ../example/visualize.py ../benchmark/32x32_obst204/map_32by32_obst204_agents10_ex1.yaml output.yaml
    * ![Python tool](https://github.com/jianyujiang/CCBS-Visualizer/blob/master/pictures/python%20tool.png)
-   
 
 ##  20210709
 
-1. QT:tinyxml库：
+1. Qt:tinyxml库：
    * TiXmlBase：整个TinyXML模型的基类。
      TiXmlAttribute：对应于XML中的元素的属性。
      TiXmlNode：对应于DOM结构中的节点。
@@ -110,4 +109,206 @@
      TiXmlUnknown：对应于XML的未知部分。 
      TiXmlHandler：定义了针对XML的一些操作。
 2. Python:lxml库+matplotlib库+argparse库
-   * 
+
+## 20210713
+
+1. xml：一种用于描述和交换数据的语言。xml=data+structure
+
+   * ``` 
+     <people>
+     <person>
+     <name>Pierre Genevès</name>
+     </person>
+     <person>
+     <name>Nabil Layaïda</name>
+     </person>
+     </people>
+     ```
+
+   * ``` 
+     声明：<?xml version="1.0" encoding="UTF-8"?>
+
+   * ``` 
+     标记与内容：标记通常以<开头，以>结尾；或者以字符& 开头，以;结尾。不是标记的字符就是内容。
+     ```
+
+   * ```
+     标签：3类。start-tag，如<section>;end-tag，如</section>;empty-element tag，如<line-break />.
+     ```
+
+   * ```
+     元素：元素是文档逻辑组成，或者在start-tag与匹配的end-tag之间，或者仅作为一个empty-element tag。单个根（root）元素包含所有的其他元素。 
+     ```
+
+   * ```
+     属性：在start-tag或empty-element tag内部的“名字-值对”。例如：<img src="madonna.jpg" alt="Madonna" />。
+     ```
+
+2. Qt：ASearchVisualizer程序的xml结构：
+
+   ```mermaid
+   graph TD
+   root((root))
+   map((map))
+   algorithm((algorithm))
+   options((options))
+   log((log))
+   root-->map
+   root-->algorithm
+   root-->options
+   root-->log
+   
+   ```
+
+   ```mermaid
+   graph TD
+   map((map))
+   row_number_n((row number n))
+   grid-->row_number_n
+   width((width))
+   height((height))
+   cellsize((sellsize))
+   startx((startx))
+   starty((starty))
+   finishx((finishx))
+   finishy((finishy))
+   grid((grid))
+   map-->width
+   map-->height
+   map-->cellsize
+   map-->startx
+   map-->starty
+   map-->finishx
+   map-->finishy
+   map-->grid
+   
+   ```
+
+   ```mermaid
+   graph TB
+   
+   
+   algorithm((algorithm))
+   searchtype((searchtype))
+   hweight((hweight))
+   metrictype((metrixtype))
+   breakingties((breakingties))
+   linecost((linecost))
+   allowsqueeze((allowsqueeze))
+   allowdianonal((allowdianonal))
+   sizelimit((sizelimit))
+   algorithm-->searchtype
+   algorithm-->hweight
+   algorithm-->metrictype
+   algorithm-->breakingties
+   algorithm-->linecost
+   algorithm-->allowsqueeze
+   algorithm-->allowdianonal
+   algorithm-->sizelimit
+   
+   
+   ```
+
+   ```mermaid
+   graph TD
+   
+   options((options))
+   loglevel((loglevel))
+   options-->loglevel
+   ```
+
+   
+
+```mermaid
+graph TD
+log((log))
+mapfilename((mapfilename))
+summary((sumary))
+path((path))
+lplevel((lplevel))
+hplevel((hplevel))
+lowlevel((lowlevel))
+log-->mapfilename
+log-->summary
+log-->path
+log-->lplevel
+log-->hplevel
+log-->lowlevel
+row_n((row number n))
+path-->row_n
+node_n((node x=n1 <br>y=n2 number=n3))
+lplevel-->node_n
+section_n((section number=n1 <br>start.x=n2 <br>start.y=n3 finish.x=n4 <br>finish.y=n5 length=n6))
+hplevel-->section_n
+step((step number n))
+lowlevel-->step
+open((open))
+close((close))
+step-->open
+step-->close
+node_xyfg1((node x=n1<br>y=n2 F=n3<br>g=n4 parent_x=n5<br>parent_y=n6))
+node_xyfg2((node x=n7<br>y=n8 F=n9<br>g=n10 parent_x=n11<br>parent_y=n12))
+open-->node_xyfg1
+close-->node_xyfg2
+```
+
+3. CCBS
+
+   * 输入grid_map.xml  
+
+     ```mermaid
+     graph TD
+     
+     root((root))
+     map((map))
+     width((width))
+     height((height))
+     grid((grid))
+     row((row))
+     root-->map
+     map-->width
+     map-->height
+     map-->grid
+     grid-->row
+     ```
+
+   * 输入grid_task.xml
+
+     ```mermaid
+     graph TD
+     root((root))
+     agent((agent start_ i=n1<br>start_ j=n2<br>goal_ i=n3<br>goal_ j=n4))
+     root-->agent
+     ```
+
+   * 输出grid_task_log.xml
+
+     ```mermaid
+     graph TD
+     root((root))
+     agent_start_goal(( start_ i=n1<br>start_ j=n2<br>goal_ i=n3<br>goal_ j=n4))
+     log((log))
+     summary((summary))
+     agent((agent number=n))
+     root-->agent_start_goal
+     root-->log
+     log-->summary
+     log-->agent
+     path((path duartion=x))
+     agent-->path
+     section((section number=n1,<br>start_i=n2,start_j=n3,<br>goal_i=n4,goal_j=n5,<br>duration=n6))
+     path-->section
+     ```
+
+     4. Lijiaoyang EECBS
+
+        ``` 
+        paths.txt
+        gent 0: (16,5)->(15,5)->(15,6)->(15,7)->(16,7)->(16,8)->(16,9)->(16,10)->(16,11)->(16,12)->(16,13)->(16,14)->(15,14)->(14,14)->(14,15)->(14,16)->(14,17)->(14,18)->(14,19)->(14,20)->(14,21)->(15,21)->(15,22)->(15,23)->(15,24)->(15,25)->(15,26)->(15,27)->(16,27)->(17,27)->(18,27)->(18,28)->(19,28)->(19,29)->(19,30)->(20,30)->(21,30)->(21,29)->(22,29)->(23,29)->(23,30)->(24,30)->(24,31)->
+        Agent 1: (29,21)->(28,21)->(28,22)->(28,23)->(27,23)->(26,23)->(26,24)->(25,24)->(24,24)->(24,25)->(23,25)->(22,25)->(22,24)->
+        Agent 2: (1,27)->(2,27)->(3,27)->(3,28)->(4,28)->(5,28)->(6,28)->(7,28)->(8,28)->(8,29)->(9,29)->(10,29)->(10,28)->(11,28)->(12,28)->(13,28)->(14,28)->(15,28)->(16,28)->(16,27)->(17,27)->(18,27)->(19,27)->(19,28)->(19,29)->(19,30)->(20,30)->(21,30)->(21,29)->(22,29)->(22,28)->(23,28)->
+        
+        ```
+
+        
+
