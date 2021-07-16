@@ -310,5 +310,325 @@ close-->node_xyfg2
         
         ```
 
-        
 
+## 20210714
+
+1. highlevel输入输出,lowlevel输入输出，框架
+
+2. TinyXML
+
+   ```mermaid
+   classDiagram
+   
+   TiXmlBase..>TiXmlNode
+   TiXmlBase..>TiXmlElement
+   TiXmlBase..>TiXmlDocument
+   TiXmlBase:+virtual Print()
+   TiXmlBase:+SetCondenseWhiteSpace()$
+   TiXmlBase:+IsWhiteSpaceCondensed()$
+   TiXmlBase:+Row()
+   TiXmlBase:+Column()
+   TiXmlBase:+SetUserData()
+   TiXmlBase:+GetUserData()
+   TiXmlBase:+Parse()
+   TiXmlBase:+EncoderString()
+   TiXmlBase:+int utf8ByteTable
+   TiXmlBase:#SkipWhiteSpace()$
+   TiXmlBase:#IsWhiteSpace()$
+   TiXmlBase:#ReadName()$
+   TiXmlBase:#ReadText()$
+   TiXmlBase:#GetEntity()$
+   TiXmlBase:#GetChar()$
+   TiXmlBase:#StringEqual()$
+   TiXmlBase:#IsAlpha()$
+   TiXmlBase:#IsAlphaNum()$
+   TiXmlBase:#ToLower()$
+   TiXmlBase:#ConvertUTF32ToUTF8()$
+   TiXmlBase:-struct Entity
+   TiXmlBase:-Entity entity$
+   TiXmlBase:-condenseWhiteSpace
+   TiXmlBase<|--TiXmlNode
+   TiXmlNode..>TiXmlDocument
+   TiXmlNode..>TiXmlElement
+   TiXmlNode:+enum NodeType
+   TiXmlNode:+Value()
+   TiXmlNode:+TIXML_STRING&ValueTStr()
+   TiXmlNode:+SetValue()
+   TiXmlNode:+Clear()
+   TiXmlNode:+*Parent()
+   TiXmlNode:+*FirstChild()
+   TiXmlNode:+*LastChild()
+   TiXmlNode:+*IterateChildren()
+   TiXmlNode:+InsertEndChild()
+   TiXmlNode:+LinkEndChild()
+   TiXmlNode:+InsertBeforeChild()
+   TiXmlNode:+InsertAfterChild()
+   TiXmlNode:+ReplaceChild()
+   TiXmlNode:+RemoveChild()
+   TiXmlNode:+PreviousSibiling()
+   TiXmlNode:+NextSibling()
+   TiXmlNode:+FirshChildElement()
+   TiXmlNode:+GetDocument()
+   TiXmlNode:+virtual ToDocument()
+   TiXmlNode:+virtual ToElement()
+   TiXmlNode:+virtual ToComment()
+   TiXmlNode:+virtual ToUnknown()
+   TiXmlNode:+virtual ToText()
+   TiXmlNode:+virtual ToDeclaration()
+   TiXmlNode:+virtual Clone()
+   TiXmlNode:+virtual Accept()
+   TiXmlNode:#CopyTo()
+   TiXmlNode:#Identify()
+   TiXmlNode:#*parent
+   TiXmlNode:#type
+   TiXmlNode:#*firstChild
+   TiXmlNode:#*lastChild
+   TiXmlNode:#value
+   TiXmlNode:#*prev
+   TiXmlNode:#*next
+   TiXmlBase<|--TiXmlAttribute
+   TiXmlAttribute..>TiXmlAttributeSet
+   TiXmlAttribute:+Name()
+   TiXmlAttribute:+Value()
+   TiXmlAttribute:+IntValue()
+   TiXmlAttribute:+DoubleValue()
+   TiXmlAttribute:+NameTStr()
+   TiXmlAttribute:+QueryIntValue()
+   TiXmlAttribute:+QueryDoubleValue()
+   TiXmlAttribute:+SetName()
+   TiXmlAttribute:+SetValue()
+   TiXmlAttribute:+SetIntValue()
+   TiXmlAttribute:+SetDoubleValue()
+   TiXmlAttribute:+Next()
+   TiXmlAttribute:+Previous()
+   TiXmlAttribute:+Parse()
+   TiXmlAttribute:+Print()
+   TiXmlAttribute:+SetDocument()
+   TiXmlAttribute:-TIXML_STRING name
+   TiXmlAttribute:-TIXML_STRING value
+   TiXmlAttribute:-TiXmlAttribute* prev
+   TiXmlAttribute:-TiXmlAttribute* next
+   TiXmlAttributeSet:+Add()
+   TiXmlAttributeSet:+Remove()
+   TiXmlAttributeSet:+First()
+   TiXmlAttributeSet:+Last()
+   TiXmlAttributeSet:+Find()
+   TiXmlAttributeSet:-sentinel
+   TiXmlNode<|--TiXmlElement
+   TiXmlElement:+Attribute()
+   TiXmlElement:+QueryIntAttribute()
+   TiXmlElement:+QueryDoubleAttribute()
+   TiXmlElement:+QueryFloatAttribute()
+   TiXmlElement:+SetAttribute()
+   TiXmlElement:+SetDoubleAttribute()
+   TiXmlElement:+RemoveAttribute()
+   TiXmlElement:+FirstAttribute()
+   TiXmlElement:+LastAttribute()
+   TiXmlElement:+GetText()
+   TiXmlElement:+Clone()
+   TiXmlElement:+Print()
+   TiXmlElement:+Parse()
+   TiXmlElement:+Accept()
+   TiXmlElement:#CopyTo()
+   TiXmlElement:#ClearThis()
+   TiXmlElement:#ReadValue()
+   TiXmlElement:-attributeSet
+   TiXmlNode<|--TiXmlComment
+   TiXmlComment:+Clone()
+   TiXmlComment:+Print()
+   TiXmlComment:+Parse()
+   TiXmlComment:+ToComment()
+   TiXmlComment:+Accept()
+   TiXmlComment:+#CopyTo()
+   TiXmlNode<|--TiXmlText
+   TiXmlText:+Print()
+   TiXmlText:+CDATA()
+   TiXmlText:+SetCDATA()
+   TiXmlText:+Parse()
+   TiXmlText:+ToText()
+   TiXmlText:+Accept()
+   TiXmlText:#Clone()
+   TiXmlText:#CopyTo()
+   TiXmlText:#Blank()
+   TiXmlText:-cdata
+   TiXmlNode<|--TiXmlDeclaration
+   TiXmlDeclaration:+Version()
+   TiXmlDeclaration:+Encoding()
+   TiXmlDeclaration:+Standalone()
+   TiXmlDeclaration:+Clone()
+   TiXmlDeclaration:+Print()
+   TiXmlDeclaration:+Parse()
+   TiXmlDeclaration:+Accept()
+   TiXmlDeclaration:#CopyTo()
+   TiXmlDeclaration:-version
+   TiXmlDeclaration:-encoding
+   TiXmlDeclaration:-standalone
+   TiXmlNode<|--TiXmlUnknown
+   TiXmlUnknown:+Clone()
+   TiXmlUnknown:+Print()
+   TiXmlUnknown:+Parse()
+   TiXmlUnknown:+Accept()
+   TiXmlUnknown:#CopyTo()
+   TiXmlNode<|--TiXmlDocument
+   TiXmlDocument:+LoadFile()
+   TiXmlDocument:+SaveFile()
+   TiXmlDocument:+Parse()
+   TiXmlDocument:+RootElement()
+   TiXmlDocument:+Error()
+   TiXmlDocument:+ErrorDesc()
+   TiXmlDocument:+ErrorId()
+   TiXmlDocument:+ErrorRow()
+   TiXmlDocument:+ErrorCol()
+   TiXmlDocument:+SetTabSize()
+   TiXmlDocument:+TabSize()
+   TiXmlDocument:+ClearError()
+   TiXmlDocument:+Print()
+   TiXmlDocument:+SetError()
+   TiXmlDocument:+Accept()
+   TiXmlDocument:#Clone()
+   TiXmlDocument:-CopyTo()
+   TiXmlDocument:-error
+   TiXmlDocument:-errorId
+   TiXmlDocument:-errorDesc
+   TiXmlDocument:-tabsize
+   TiXmlDocument:-errorLocation
+   TiXmlDocument:-useMicrosoftBOM
+   ```
+
+   ## 20210715
+
+   1. Qt ASearchVisualizer中使用TinyXml:(point.cpp)
+
+      ```
+      const char* TiXmlElement::Attribute( const char* name ) const
+      {
+      	const TiXmlAttribute* node = attributeSet.Find( name );
+      	if ( node )
+      		return node->Value();
+      	return 0;
+      }
+      //TiXmlElement类私有成员变量attributeSet是一个TiXmlAttributeSet类的对象
+      
+      const TiXmlAttribute* TiXmlAttributeSet::Find( const char* name ) const
+      {
+      	for( const TiXmlAttribute* node = sentinel.next; node != &sentinel; node = node->next )
+      	{
+      		if ( strcmp( node->name.c_str(), name ) == 0 )
+      			return node;
+      	}
+      	return 0;
+      }
+      //TiXmlAttributeSet私有成员变量sentinel是一个TiXmlAttribute类的对象
+      
+      xml文件中格式：
+      					 <node x="12" y="15" F="140" g="30" parent_x="12" parent_y="16" />
+                          <node x="11" y="15" F="144.454" g="34" parent_x="12" parent_y="16" />
+                          <node x="13" y="15" F="144.454" g="34" parent_x="12" parent_y="16" />
+                          <node x="14" y="15" F="149.803" g="38" parent_x="13" parent_y="16" />
+                          <node x="10" y="15" F="149.803" g="38" parent_x="11" parent_y="16" />
+      Point.h中代码：
+      Point(TiXmlElement *p)
+          {
+              if(p->Attribute("x"))
+                  x=QString(p->Attribute("x")).toInt();
+              if(p->Attribute("y"))
+                  y=QString(p->Attribute("y")).toInt();
+              if(p->Attribute("F"))
+                  f=QString(p->Attribute("F")).toDouble();
+              if(p->Attribute("g"))
+                  g=QString(p->Attribute("g")).toDouble();
+              if(p->Attribute("pathFound"))
+              pathfound=QString(p->Attribute("pathFound"));
+              if(pathfound.compare("noAttempt")==0)
+                  pathfoundint=0;
+              else if(pathfound.compare("true")==0)
+                  pathfoundint=1;
+              else
+                  pathfoundint=-1;
+              label=QString(p->Attribute("label")?p->Attribute("label"):"");
+      
+              if(p->Attribute("k"))
+                  k=QString(p->Attribute("k")).toInt();
+              else
+                  k=-1;
+              labelnormal=(k!=1);
+              if(p->Attribute("parent_x"))
+                  parent_x=QString(p->Attribute("parent_x")).toInt();
+              else
+                  parent_x=-1;
+      
+              if(p->Attribute("parent_y"))
+                  parent_y=QString(p->Attribute("parent_y")).toInt();
+              else
+                  parent_y=-1;
+          }
+      ```
+
+   2. ASearchVisualizer Globalstep类
+
+      ```mermaid
+      classDiagram
+      class GlobalStep {
+       +GlobalStep()
+          +bool setStep()
+          +QVector<QGraphicsItem*> show() 
+          +QVector<QGraphicsItem*> showArrows()    
+         +QVector<QGraphicsItem *> drawArrowsForPoint() 
+         +QVector<QGraphicsItem*> drawPathForPoint() 
+          +bool findPoint(int x, int y, Point &p) 
+          #QList<Point> open
+          #QList<Point> close
+          #QVector<QGraphicsItem*> drawArrowsForPoint() 
+          #QList<Point> findPointInList() 
+      }
+      ```
+
+   3. ASearchVisualizer LogContainer类
+
+      ```mermaid
+      classDiagram
+      class LogContainer {
+       LogContainer();
+      
+          bool parseLog();
+          int numofsteps();
+          QVector<QGraphicsItem*> showGlobalStep()
+          QVector<QGraphicsItem*> showArrowsOfPoint()
+          bool findPoint();
+          QVector<QGraphicsItem*> showPath();
+          QVector<QGraphicsItem*> showPathToPoint();
+          QList<GlobalStep*> steps
+          QList<QPair<int,int> > path
+      }
+      ```
+
+   4. ASearchVisualizer map类
+
+      ```mermaid
+      classDiagram
+      class Map{
+       	Map();
+          bool parseMap(TiXmlElement* elem, QString &error);
+          QGraphicsScene* drawclearmap(Colors *curcolors);
+          void setcellsize(int size);
+          int getcellsize();
+          int getmapwidth();
+          int getmapheight();
+          int cellsize;
+          int width;
+          int height;
+          int startx;
+          int starty;
+          int finishx;
+          int finishy;
+          QList<QPair<int,int> > obstacles;
+      }
+      ```
+
+## 20210716
+
+1. GraphRec工具
+   * 下载地址：http://koupy.net/graphrec.php
+   * 若报错./GraphRec:error while loading shared libraries:libgthread-2.0.so.0:cannot open shared object file:No such file or directory,则使用如下命令安装：sudo apt-get install libglib2.0-0:i386
+   * 此工具通过Qt4.6和FFmpeg0.5实现。FFmpeg是一套可以用来记录、转换数字音频、视频，并能将其转化为流的开源计算机程序。
+   * 其中xml解析是通过Qt提供的方法QXmlStreamReader基于流的方式访问良格式XML文档，其适合实现一次解析器，即读取文档一次，然后像一个遍历器从头到尾一次性处理XML文档，期间不会有反复的情况，也就是不会读完第一个标签，然后读第二个，读完第二个又返回去读第一个，这是不允许的。除了基于流的方式访问XML文档，Qt还提供了DOM构建树结构和SAX以事件的形式处理XML文档。
